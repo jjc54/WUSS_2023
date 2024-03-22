@@ -1,0 +1,250 @@
+---
+title: "Dashboarding with SAS® and R"
+subtitle: "A Dash of SAS®, a Pinch of R: Cooking up Dashboards Using Two Very Different Programming Languages"
+author: "Joshua J. Cook, M.S., ACRP-PM, CCRC"
+institute: "Andrews Research & Education Foundation (AREF), University of West Florida (UWF)"
+format: 
+  revealjs:
+    incremental: TRUE
+    theme: sky.scss
+    footer: "Paper: 165-2023"
+    slide-number: TRUE
+    logo: images/wuss.png
+    css: styles.css
+    embed-resources: TRUE
+editor: visual
+preload-iframes: TRUE
+preview-links: auto
+---
+
+## Biography {.scrollable}
+
+::: normalfont
+::: columns
+::: {.column width="40%"}
+![](images/grad.jpeg){fig-align="left" width="384"}
+:::
+
+::: {.column width="60%"}
+**Disclosure** - I've been in data science for about 1 year, and this is my [second]{.underline} data-related presentation.
+
+-   2021 - B.S., Biomedical Science, *University of West Florida*
+
+-   2023 - M.S., Clinical Research Management, *Wake Forest University*
+
+-   2024 - M.S., Data Science, *University of West Florida*
+
+-   2024 - M.D./Ph.D. Application
+:::
+:::
+:::
+
+## Dashboards
+
+**Dashboards** in this talk refer to **summaries** of important information, typically utilized by businesses and organizations to **make decisions.**
+
+How does a dashboard differ from a visualization?
+
+-   **Data refresh capabilities**
+
+-   Often **very frequent**, sometimes real-time
+
+## Cooking Up Dashboards
+
+**Two key ingredients:**
+
+-   **Statistical Analysis System (SAS)** - proprietary, industry standard, updates managed by SAS Institute
+
+    -   Base-SAS: **Output Delivery System (ODS)**, statements PROC PRINT, PROC SGPLOT, PROC SGPIE
+
+-   **R** - open source, gaining popularity, updates managed by R Foundation and many capabilities added via community package system
+
+    -   Packages: **Quarto**, readxl, tidyverse, gt
+
+## Example Data {.scrollable}
+
+In-house, but publicly accessible, dataset of publication metrics **(ex: publication titles, journals, authors).**
+
+Accessed by querying the National Center for Biotechnology Information (NCBI) Entrez Programming Utilities (E-utilities).
+
+![](images/table.png){fig-align="center"}
+
+## Cooking in the SAS Kitchen {.scrollable}
+
+![](images/sas.png){fig-align="center"}
+
+## Setting up Your SAS Kitchen {.scrollable}
+
+-   This demonstration utilized SAS^®^ 3.81 (Enterprise Edition) and was accessed on SAS^®^ Studio via **SAS^®^ OnDemand for Academics (ODA).**
+
+-   **Only procedures from base-SAS^®^ were utilized** (ex: PROC SQL, PROC PRINT, PROC SGPLOT, PROC SGPIE)
+
+-   The two excel spreadsheets (Publications and Authors) were uploaded to the SAS^®^ Studio server and **imported as datasets (PUBS and AUTHORS).**   
+
+## Recipe Overview (Steps) {.scrollable .smaller}
+
+1.  Setup your kitchen as explained previously
+
+2.  Specify an **ODS HTML5** statement to set the file path, name, and format (html in this example)
+
+3.  Specify the dashboard title and any font customizations
+
+4.  Specify and **ODS LAYOUT statement** to set the number of rows and columns that will be used to organize the dashboard layout
+
+5.  Specify an **ODS REGION statement** to control where the following output will be placed with respect to the layout (i.e., designating which rows and/or columns each data structure will go to)
+
+6.  Include any **PROC PRINT, SGPLOT, SGPIE**, etc. procedures that encompass the data structures you would like placed in each ODS REGION
+
+7.  Specify an **ODS LAYOUT END** statement to end the dashboard layout
+
+8.  Specify an **ODS HTML5 CLOSE** statement to render the results to the dashboard file (html in this example)
+
+## The Ingredients (Code)
+
+::: normalfont
+::: columns
+::: {.column .scrollable width="40%"}
+![](images/sas.png){fig-align="left"}
+:::
+
+::: {.column .scrollable width="60%"}
+![](images/code.png)
+:::
+:::
+:::
+
+## Flavors (Strengths) of SAS {.scrollable .smaller}
+
+Cooking with SAS^®^ brings several key flavors **(strengths)** to the dish:
+
+-   **ODS syntax is easy to understand and simple** to use to define exactly where each data structure should appear on the dashboard.
+
+-   **PROC SQL** is included in base-SAS^®^, which offers a simple and flexible query language that can be used to wrangle the data for any table or visual on a dashboard.
+
+-   When printing to **HTML**, the data structures did not become distorted and were easy to update with new underlying data and code.
+
+## Aromas (Weaknesses) of SAS {.scrollable .smaller}
+
+There are also some unique aromas (weaknesses) to consider:
+
+-   In this example, PROC SQL queries often included **more code** than R (tidyverse) equivalents.
+
+-   SAS^®^ Studio via SAS^®^ OnDemand for Academics (ODA) includes a way of saving data through **temporary cloud libraries**, which can be hard to manage with multiple datasets and when internet disconnections occur.
+
+-   Some **commonly used visualizations**, such as a word cloud, are not available in base-SAS^®^ and thus require more investment in SAS^®^ software to utilize.
+
+## Cooking in the R Kitchen {.scrollable}
+
+![](images/r1.png){fig-align="center"}
+
+## Cooking in the R Kitchen {.scrollable}
+
+![](images/r2.png){fig-align="center"}
+
+## Setting up Your R Kitchen {.scrollable .smaller}
+
+-   This demonstration utilized R v.4.2.3 and was accessed on **RStudio^®^ as the primary Integrated Development Environment (IDE).**
+
+-   As with any project in RStudio^®^, a **primary folder** should be setup that will be used as the working directory. This is where the **R project (Rproj)** file will be housed, as well as any required subfolders.
+
+-   Within RStudio^®^, only four libraries are installed and imported -**readxl**, which is used to read in excel spreadsheet files, **quarto**, which is the publishing system used to generate the dashboard, **tidyverse**, which is used for data wrangling and visualization, and **gt**, which is used for the generation of tables.
+
+-   The two excel spreadsheets (Publications and Authors) were **imported as dataframes (PUBS and AUTHORS).**   
+
+## Recipe Overview (Steps) {.scrollable .smaller}
+
+1.  Setup your kitchen as explained previously
+
+2.  In RStudio^®^, create a new **Quarto^®^ Document with the minimum YAML header** to ensure proper HTML setup for the dashboard:
+
+> ---
+>
+> format: html
+>
+> embed-resources: true
+>
+> page-layout: custom
+>
+> editor: visual
+>
+> colorlinks: TRUE
+>
+> ---
+
+3.  Create an **R code block for setup and data wrangling**. This block is used for loading the libraries, reading in the data (using readxl), and wrangling in preparation for the generation of tables and plots (using tidyverse). **The output of this block should not be included in the dashboard output.**
+4.  Create an additional code block that will serve as the **layout for the dashboard.** This is accomplished using the following code cell options (adjusting numbers to fit the needs of the dashboard):
+
+> #\| layout-ncol: 3
+>
+> #\| layout-nrow: 3
+
+5.  Within this code block, **tables can be generated using gt and plots using ggplot2** (or any other table/plot package in R). **As data structures are generated, they will occupy the spaces within 3x3 layout.**
+6.  **Render the document within RStudio^®^ to write the HTML document,** which will be saved to the working directory and opened automatically (typically within a web browser).
+
+## The Ingredients (Code)
+
+::: normalfont
+::: columns
+::: {.column width="40%"}
+![](images/r1.png){fig-align="left"}
+:::
+
+::: {.column width="60%"}
+![](images/rcode.png)
+:::
+:::
+:::
+
+## Flavors (Strengths) of R {.smaller}
+
+Cooking with R brings several key flavors (strengths) to the dish:
+
+-   Quarto^®^ syntax took **very minimal code** to specify the layout of the dashboard.
+
+-   The **tidyverse** offers a simple data wrangling solution that required much less code than PROC SQL.
+
+-   **Almost every visualization** that can be thought of is available with the ggplot2 package of the tidyverse, or a package exists elsewhere to bring specific functionality.
+
+## Aromas (Weaknesses) of R {.smaller .scrollable}
+
+However, there are also some unique aromas (weaknesses) to consider:
+
+-   Quarto^®^ syntax is easy to understand, but it is **harder to specify the exact location** of data structures on the dashboard compared to SAS^®^ ODS, which created extra white space.
+
+-   When printing to HTML, the **data structures did become distorted**, and many trials were needed to get the correct resolution to output.
+
+-   Some **visualizations**, such as pie charts, are much **more complicated to generate** compared to something like SGPIE within SAS^®^.
+
+-   FREQUENT updates; pre-release 1.4
+
+    ![](images/pre.png)
+
+## Conclusions {.smaller .scrollable}
+
+-   **Dashboards** are **key analytic tools** that are used by businesses, schools, and throughout the healthcare industry.
+
+-   These tools are **defined by their ability to utilize frequently regenerated and often real-time data** to inform decision makers.
+
+-   There are **many programming languages** that can be used to create a dashboard, akin to the use of different ingredients used during cooking. This paper explored two popular ingredients (i.e., programming languages) that are used to generate dashboards, [**SAS^®^ and R.**]{.underline}
+
+-   This paper was a basic introduction to dashboarding with these two languages. [**More advanced dashboards are possible (ex: Quarto pre-release, Shiny).**]{.underline}
+
+-   ![](images/prer.png)
+
+## Acknowledgements {.smaller}
+
+-   **WUSS** for their support through the WUSS Student Scholarship Program.
+
+-   **Kirk Paul Lafler (\@sasNerd)** for his mentorship through the WUSS Mentorship Program.
+
+-   Richann Watson, Louise Hadden, Troy Martin Hughes, Jessi Truett, Ellie Hartsfield, Ashton Hayward, and Adam Anz for their support with this project, and for their general guidance and mentorship.
+
+## Contact Information
+
+Joshua J. Cook, M.S., ACRP-PM, CCRC
+
+Cell: (850)736-1801
+
+Email: jcook0312\@outlook.com
+
+![](images/Dot2.png){fig-align="center" width="263"}
